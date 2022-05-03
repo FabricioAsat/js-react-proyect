@@ -2,6 +2,7 @@ import { useState } from "react";
 import Browser from "./Browser";
 import Cards from "./Cards";
 import Error from "./Error";
+import Modal from "./Modal";
 import TypeOfSearch from "./TypeOfSearch";
 
 const initInfoCards = {
@@ -23,9 +24,18 @@ export default function MenuOfSearch() {
 	//* Verifica si se apreta buscar o no.
 	const [isBrowsing, setIsBrowsing] = useState(false);
 
+	//* Comanda el valor del botón search
+	const [valueSearchButton, setValueSearchButton] = useState("Select");
+
+	const [okSearchType, setOkSearchType] = useState(false);
+
 	return (
 		<>
-			<TypeOfSearch setTypeOfSearch={setTypeOfSearch} setIsBrowsing={setIsBrowsing} />
+			<TypeOfSearch
+				setTypeOfSearch={setTypeOfSearch}
+				setIsBrowsing={setIsBrowsing}
+				setValueSearchButton={setValueSearchButton}
+			/>
 			<Browser
 				typeOfSearch={typeOfSearch}
 				setTypeOfSearch={setTypeOfSearch}
@@ -34,11 +44,32 @@ export default function MenuOfSearch() {
 				setBrowser={setBrowser}
 				setIsBrowsing={setIsBrowsing}
 				isBrowsing={isBrowsing}
+				setValueSearchButton={setValueSearchButton}
+				valueSearchButton={valueSearchButton}
+				setOkSearchType={setOkSearchType}
+				//
 			/>
+
+			{typeOfSearch === "By name" && !infoCards.isPending && browser.name !== "" ? (
+				<Cards name={browser.name} infoCards={infoCards} isBrowsing={isBrowsing} />
+			) : String(typeOfSearch).match(/type/gi) ? (
+				<Modal
+					infoCards={infoCards}
+					setTypeOfSearch={setTypeOfSearch}
+					setValueSearchButton={setValueSearchButton}
+					okSearchType={okSearchType}
+					setInfoCards={setInfoCards}
+					browser={browser}
+				/>
+			) : (
+				<Error setInfoCards={setInfoCards} />
+			)}
+
+			{/* 			
 			{browser.name === "" && <Error setInfoCards={setInfoCards} />}
 			{!infoCards.isPending && browser.name !== "" && (
 				<Cards name={browser.name} infoCards={infoCards} isBrowsing={isBrowsing} />
-			)}
+			)} */}
 		</>
 	);
 }

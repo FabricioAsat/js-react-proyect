@@ -1,5 +1,3 @@
-import Button from "./Button";
-
 export default function Header() {
 	return (
 		<>
@@ -9,7 +7,6 @@ export default function Header() {
 					<br />
 					<span className="title-down">Pokémon</span>
 				</div>
-				<Button value={`Login`} />
 			</article>
 		</>
 	);

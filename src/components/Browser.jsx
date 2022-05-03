@@ -1,5 +1,5 @@
 import Button from "./Button";
-
+import { useEffect } from "react";
 export default function Browser({
 	browser,
 	setBrowser,
@@ -7,6 +7,9 @@ export default function Browser({
 	setInfoCards,
 	setIsBrowsing,
 	isBrowsing,
+	valueSearchButton,
+	setValueSearchButton,
+	setOkSearchType,
 }) {
 	//
 	const handleChange = (e) => {
@@ -15,6 +18,11 @@ export default function Browser({
 			[e.target.name]: e.target.value,
 		});
 	};
+
+	useEffect(() => {
+		if (!String(typeOfSearch).match(/types/gi)) return;
+		setOkSearchType(false);
+	}, [browser]);
 
 	return (
 		<div className="browser">
@@ -33,18 +41,14 @@ export default function Browser({
 				</label>
 			</div>
 			<Button
-				value="Search"
-				url={getURL(typeOfSearch)}
+				value={valueSearchButton}
 				setInfoCards={setInfoCards}
 				setIsBrowsing={setIsBrowsing}
 				isBrowsing={isBrowsing}
 				typeOfSearch={typeOfSearch}
+				setValueSearchButton={setValueSearchButton}
+				setOkSearchType={setOkSearchType}
 			/>
 		</div>
 	);
-}
-
-function getURL(typeOfSearch) {
-	if (typeOfSearch === "By name") return " https://pokeapi.co/api/v2/pokemon?offset=0&limit=1126";
-	return null;
 }
