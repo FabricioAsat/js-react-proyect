@@ -22,6 +22,7 @@ export default function Browser({
 	useEffect(() => {
 		if (!String(typeOfSearch).match(/types/gi)) return;
 		setOkSearchType(false);
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [browser]);
 
 	return (

@@ -1,14 +1,16 @@
 import { useEffect, useState } from "react";
 import { useFetch } from "../hooks/useFetch";
+import Card from "./Card";
+import Error from "./Error";
 import ModalButton from "./ModalButton";
 
 export default function Modal({
 	infoCards,
-	setInfoCards,
 	setTypeOfSearch,
 	setValueSearchButton,
 	okSearchType,
 	browser,
+	setInfoCards,
 }) {
 	let { results } = infoCards.data;
 	const [hidden, setHidden] = useState(false);
@@ -32,14 +34,31 @@ export default function Modal({
 
 		setTypeUrl([]);
 
-		let { pokemon } = fetch.data;
+		if (String(url).match(/type/gi)) {
+			let { pokemon } = fetch.data;
+			pokemon.forEach((elem) => {
+				if (elem.pokemon.name.match(regExp)) {
+					setTypeUrl((typeUrl) => [...typeUrl, elem.pokemon.url]);
+				}
+			});
+			return;
+		}
 
-		pokemon.forEach((elem) => {
-			if (elem.pokemon.name.match(regExp)) {
-				setTypeUrl((typeUrl) => [...typeUrl, elem.pokemon.url]);
-			}
-		});
-	}, [fetch.data]);
+		if (String(url).match(/generation/gi)) {
+			let { pokemon_species } = fetch.data;
+			pokemon_species.forEach((elem) => {
+				if (elem.name.match(regExp)) {
+					// Exp reg para obtener el id y acceder al pokemon mediante su id en la api
+					let idObtener = /(\d+)/g;
+					let idPokemon = elem.url.match(idObtener)[1];
+					setTypeUrl((typeUrl) => [...typeUrl, `https://pokeapi.co/api/v2/pokemon/${idPokemon}`]);
+				}
+			});
+			return;
+		}
+
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [fetch.data, browser.name]);
 
 	useEffect(() => {
 		setHidden(false);
@@ -66,10 +85,14 @@ export default function Modal({
 					</button>
 				</div>
 			)}
-			{okSearchType && (
-				<div>
-					<h2>Prueba</h2>
+			{okSearchType && typeUrl.length > 0 ? (
+				<div className="cards-container">
+					{typeUrl.map((url) => (
+						<Card key={url} url={url} />
+					))}
 				</div>
+			) : (
+				<Error setInfoCards={setInfoCards} />
 			)}
 		</>
 	);

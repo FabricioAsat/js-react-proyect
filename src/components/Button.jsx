@@ -25,6 +25,7 @@ export default function Button({
 	useEffect(() => {
 		if (typeOfSearch === "By name") setUrl("https://pokeapi.co/api/v2/pokemon?offset=0&limit=1126");
 		if (typeOfSearch === "By type") setUrl("https://pokeapi.co/api/v2/type");
+		if (typeOfSearch === "By generation") setUrl("https://pokeapi.co/api/v2/generation");
 	}, [url, typeOfSearch, fetch]);
 
 	useEffect(() => {
@@ -40,6 +41,7 @@ export default function Button({
 		setInfoCards(initInfoCards);
 
 		setOkSearchType(false);
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [typeOfSearch]);
 
 	const handleClick = (e) => {
@@ -63,9 +65,15 @@ export default function Button({
 			return;
 		}
 
+		if (typeOfSearch === "By generation") {
+			setInfoCards(fetch);
+			return;
+		}
+
 		// Entra cuando se presiona search en search types
 		if (String(typeOfSearch).match(/types/gi)) {
 			setOkSearchType(true);
+			return;
 		}
 	};
 

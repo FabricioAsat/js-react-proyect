@@ -58,8 +58,17 @@ export default function MenuOfSearch() {
 					setTypeOfSearch={setTypeOfSearch}
 					setValueSearchButton={setValueSearchButton}
 					okSearchType={okSearchType}
-					setInfoCards={setInfoCards}
 					browser={browser}
+					setInfoCards={setInfoCards}
+				/>
+			) : String(typeOfSearch).match(/generation/gi) ? (
+				<Modal
+					infoCards={infoCards}
+					setTypeOfSearch={setTypeOfSearch}
+					setValueSearchButton={setValueSearchButton}
+					okSearchType={okSearchType}
+					browser={browser}
+					setInfoCards={setInfoCards}
 				/>
 			) : (
 				<Error setInfoCards={setInfoCards} />

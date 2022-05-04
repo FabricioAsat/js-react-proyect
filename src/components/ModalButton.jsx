@@ -9,13 +9,15 @@ export default function ModalButton({
 		setUrl(elem.url);
 
 		setHidden(true);
-		setTypeOfSearch(`Search ${elem.name} types`);
+		setTypeOfSearch(
+			`Search ${elem.name.charAt(0).toUpperCase() + elem.name.slice(1).replaceAll("-", " ")} types`
+		);
 		setValueSearchButton(`Search`);
 	};
 
 	return (
 		<button className="btn-modal" onClick={handleClick}>
-			{elem.name}
+			{elem.name.charAt(0).toUpperCase() + elem.name.slice(1).replaceAll("-", " ")}
 		</button>
 	);
 }
