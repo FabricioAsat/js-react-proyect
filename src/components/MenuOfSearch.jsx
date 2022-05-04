@@ -73,12 +73,6 @@ export default function MenuOfSearch() {
 			) : (
 				<Error setInfoCards={setInfoCards} />
 			)}
-
-			{/* 			
-			{browser.name === "" && <Error setInfoCards={setInfoCards} />}
-			{!infoCards.isPending && browser.name !== "" && (
-				<Cards name={browser.name} infoCards={infoCards} isBrowsing={isBrowsing} />
-			)} */}
 		</>
 	);
 }
