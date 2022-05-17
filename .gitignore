@@ -9,6 +9,10 @@
 # testing
 /coverage
 
+/build
+
+/photos
+
 # misc
 .DS_Store
 .env.local
